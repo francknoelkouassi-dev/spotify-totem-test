@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "file": "artist.routes.js",
+    "sourceRoot": "",
+    "sources": [
+        "../../src/routes/artist.routes.ts"
+    ],
+    "names": [],
+    "mappings": ";;;;;;;;;;;;;;;;;;;;;AAAA,MAAM,YAAY,GAAG,OAAO,CAAC,SAAS,CAAC,CAAC,MAAM,EAAE,CAAC;AACjD,qFAAuE;AAEvE,YAAY;KACP,GAAG,CAAC,GAAG,EAAE,iBAAiB,CAAC,UAAU,CAAC;KACtC,GAAG,CAAC,MAAM,EAAE,iBAAiB,CAAC,eAAe,CAAC;KAC9C,GAAG,CAAC,aAAa,EAAE,iBAAiB,CAAC,mBAAmB,CAAC,CAAA;AAE9D,kBAAe,YAAY,CAAC"
+}

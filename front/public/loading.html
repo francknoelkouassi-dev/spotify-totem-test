@@ -1,0 +1,310 @@
+<style type="text/css">
+	:root:not(.loaded) {
+		overflow: hidden;
+	}
+	
+	:root.loaded {
+		overflow-x: hidden;
+	}
+	
+	#background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		z-index: 1;
+		transition: opacity .55s ease-in-out;
+		opacity: 1;
+	}
+	
+	#background.pushed {
+		z-index: 0;
+		opacity: 0.9;
+	}
+	
+	#app {
+		z-index: 1;
+		transition: opacity .55s ease-in-out;
+		opacity: 0;
+	}
+	
+	#app.visible {
+		opacity: 1;
+	}
+	
+	#loader-spinner {
+		transition: opacity .55s ease-in-out;
+		opacity: 0;
+	}
+	
+	#loader-spinner.visible {
+		opacity: 1;
+	}
+	
+	#svg-gradient {
+		width: 0;
+		height: 0;
+		position: absolute;
+	}
+	
+	#svg-background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+	}
+	
+	.polygon-base {
+		opacity: 1;
+	}
+	
+	.polygon-multiply {
+		display: none; /* Not visible in old browsers */
+	}
+	
+	@supports (mix-blend-mode: multiply) {
+		/* Good browsers */
+		.polygon-multiply {
+			display: block;
+			mix-blend-mode: multiply;
+			opacity: .1;
+		}
+	}
+</style>
+
+<svg aria-hidden="true" focusable="false" id="svg-gradient">
+	<!-- http://www.brandgradients.com/ubuntu-colors/ -->
+	<!-- https://design.ubuntu.com/brand/colour-palette/ -->
+	<linearGradient id="ubuntu-gradient" x2="1" y2="1">
+		<stop offset="0%" stop-color="#dd4814"/>
+		<stop offset="100%" stop-color="#77216f"/>
+	</linearGradient>
+</svg>
+
+<svg aria-hidden="true" focusable="false" id="svg-background" preserveAspectRatio="none" viewBox="0 0 370 650">
+	<g fill="#1B5E20" fill-rule="evenodd" transform="translate(0 -7)">
+		<polygon class="polygon-base" points="0 657 370 657 370 7 0 7"/>
+		<polygon class="polygon-multiply" points="370 0 0 657 370 657"/>
+		<polygon class="polygon-multiply" points="0 657 370 350 370 657"/>
+		<polygon class="polygon-multiply" points="370 658 0 7 370 7"/>
+		<polygon class="polygon-multiply" points="0 657 370 -720 370 657"/>
+	</g>
+</svg>
+
+<div class="visible" id="loader-spinner">
+	<style type="text/css">
+		.loader-title {
+			position: absolute;
+			display: block;
+			left: 0;
+			top: 8%;
+			width: 100%;
+			font-size: 50px;
+			text-align: center;
+			color: #d64b39; /* IE fix */
+			opacity: 1;
+			transition: opacity 0.55s ease-in-out;
+			font-family: Helvetica, Verdana, Arial, sans-serif;
+			font-constiant: small-caps;
+			font-weight: 600;
+			letter-spacing: 4px;
+			text-shadow: 2px 2px 2px #982726; /* IE fix */
+		}
+		
+		.loader-title.hidden {
+			opacity: 0;
+		}
+		
+		@media (max-width: 720px) {
+			.loader-title {
+				top: 6%;
+			}
+		}
+		
+		@supports (mix-blend-mode: overlay) {
+			/* Good browsers */
+			.loader-title {
+				color: #bbb;
+				text-shadow: 2px 2px 2px #2224;
+				mix-blend-mode: overlay;
+			}
+		}
+		
+		.bouncing-balls {
+			position: absolute;
+			display: inline-block;
+			text-align: center;
+			width: 176px;
+			height: 34px;
+			top: calc(50% - 17px);
+			left: calc(50% - 88px);
+		}
+		
+		.bouncing-balls .ball {
+			display: inline-block;
+			text-align: center;
+			width: 32px;
+			height: 32px;
+			margin-right: 36px;
+			border-radius: 50%;
+			background-color: #be484d; /* IE fix */
+			box-shadow: 0px 0px 6px 1px #8c2332; /* IE fix */
+		}
+		
+		.bouncing-balls .ball:last-child {
+			margin-right: 0;
+		}
+		
+		@supports (mix-blend-mode: soft-light) {
+			/* Good browsers */
+			.bouncing-balls .ball {
+				background-color: #ffccbaba;
+				box-shadow: 0 0 8px 2px #2224;
+				mix-blend-mode: soft-light;
+			}
+		}
+		
+		.bouncing-balls-animation .ball {
+			-webkit-animation: bounceDelay 1.32s infinite ease-in-out both;
+			animation: bounceDelay 1.32s infinite ease-in-out both;
+		}
+		
+		.bouncing-balls-animation .ball:nth-child(1) {
+			-webkit-animation-delay: -0.32s;
+			animation-delay: -0.32s;
+		}
+		
+		.bouncing-balls-animation .ball:nth-child(2) {
+			-webkit-animation-delay: -0.16s;
+			animation-delay: -0.16s;
+		}
+		
+		.bouncing-balls-animation .ball:nth-child(3) {
+			-webkit-animation-delay: 0s;
+			animation-delay: 0s;
+		}
+		
+		.bouncing-balls .ball.hidden {
+			visibility: hidden;
+		}
+		
+		@-webkit-keyframes bounceDelay {
+			0%, 80%, 100% {
+				-webkit-transform: scale(0);
+				opacity: 0.4;
+			}
+			40% {
+				-webkit-transform: scale(1.25);
+				opacity: 0.95;
+			}
+		}
+		
+		@keyframes bounceDelay {
+			0%, 80%, 100% {
+				-webkit-transform: scale(0);
+				transform: scale(0);
+				opacity: 0.4;
+			}
+			40% {
+				-webkit-transform: scale(1.25);
+				transform: scale(1.25);
+				opacity: 0.95;
+			}
+		}
+	</style>
+	
+	<div class="bouncing-balls bouncing-balls-animation">
+		<div class="ball"></div>
+		<div class="ball"></div>
+		<div class="ball"></div>
+	</div>
+	
+	<div class="loader-title">Spotify Totem Music</div>
+	
+	<script type="text/javascript">
+		window.stopLoadingWithDelay = (() => {
+			const reqAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.setTimeout;
+			
+			const addClassAnimationFrame = (element, clasz) => {
+				reqAnimationFrame(() => {
+					element.classList.add(clasz);
+				});
+			}
+			
+			const stopSpinner = (spinnerWrapper, callback) => {
+				const balls = spinnerWrapper.querySelectorAll('.ball');
+				const title = spinnerWrapper.querySelector('.loader-title');
+				
+				let animatedBalls = balls.length;
+				
+				const hideAnimationOnEnd = (animationIteration) => {
+					const element = animationIteration.target;
+					addClassAnimationFrame(element, 'hidden');
+					element.removeEventListener('animationiteration', hideAnimationOnEnd, false);
+					
+					animatedBalls--;
+					if (animatedBalls <= 0) {
+						callback();
+					}
+				};
+				
+				let i;
+				const n = balls.length;
+				for (i = 0; i < n; ++i) {
+					balls[i].addEventListener('animationiteration', hideAnimationOnEnd, false);
+				}
+				
+				addClassAnimationFrame(title, 'hidden');
+			}
+			
+			const transformLoadingIntoBackground = () => {
+				const root = document.querySelector(':root');
+				if (root.classList.contains('loaded')) {
+					return;
+				}
+				
+				const spinner = document.getElementById('loader-spinner');
+				const background = document.getElementById('background');
+				const appWrapper = document.getElementById('app');
+				
+				const pushBackground = () => {
+					background.classList.add('pushed');
+					appWrapper.classList.add('visible');
+					root.classList.add('loading');
+				};
+				
+				const finishLoading = () => {
+					root.classList.add('loaded');
+					root.classList.remove('loading');
+					
+					if (spinner.remove) {
+						spinner.remove();
+					} else {
+						spinner.parentNode.removeChild(spinner);
+					}
+				};
+				
+				stopSpinner(spinner, () => {
+					reqAnimationFrame(pushBackground);
+					
+					setTimeout(() => {
+						reqAnimationFrame(finishLoading);
+					}, 560);
+				});
+			}
+			
+			return (delay) => {
+				setTimeout(() => {
+					transformLoadingIntoBackground();
+					window.stopLoadingWithDelay = () => {
+					};
+				}, delay || 100);
+			};
+		})();
+	</script>
+</div>

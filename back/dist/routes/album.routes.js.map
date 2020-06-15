@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "file": "album.routes.js",
+    "sourceRoot": "",
+    "sources": [
+        "../../src/routes/album.routes.ts"
+    ],
+    "names": [],
+    "mappings": ";;;;;;;;;;;;;;;;;;;;;AAAA,MAAM,YAAY,GAAG,OAAO,CAAC,SAAS,CAAC,CAAC,MAAM,EAAE,CAAC;AACjD,oFAAsE;AAEtE,YAAY;KACP,GAAG,CAAC,GAAG,EAAE,iBAAiB,CAAC,SAAS,CAAC;KACrC,GAAG,CAAC,MAAM,EAAE,iBAAiB,CAAC,cAAc,CAAC;KAC7C,GAAG,CAAC,aAAa,EAAE,iBAAiB,CAAC,kBAAkB,CAAC,CAAA;AAE7D,kBAAe,YAAY,CAAC"
+}
